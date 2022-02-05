@@ -15,3 +15,21 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
+
+VERSION="0.1.0"
+
+cmd_version() {
+    echo "pass-securid $VERSION"
+    exit 0
+}
+
+case "$1" in
+  help|--help|-h)    shift; cmd_help "$@" ;;
+  version|--version) shift; cmd_version "$@" ;;
+  insert)            shift; cmd_insert "$@" ;;
+  append)            shift; cmd_append "$@" ;;
+  code|show)         shift; cmd_code "$@" ;;
+  *)                        cmd_code "$@" ;;
+esac
+
+exit 0
