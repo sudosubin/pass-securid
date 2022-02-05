@@ -18,18 +18,18 @@
 
 VERSION="0.1.0"
 
-cmd_version() {
-    echo "pass-securid $VERSION"
-    exit 0
+cmd_securid_version() {
+  echo "pass-securid $VERSION"
+  exit 0
 }
 
 case "$1" in
-  help|--help|-h)    shift; cmd_help "$@" ;;
-  version|--version) shift; cmd_version "$@" ;;
-  insert)            shift; cmd_insert "$@" ;;
-  append)            shift; cmd_append "$@" ;;
-  code|show)         shift; cmd_code "$@" ;;
-  *)                        cmd_code "$@" ;;
+  help|--help|-h)    shift; cmd_securid_help "$@" ;;
+  version|--version) shift; cmd_securid_version "$@" ;;
+  insert)            shift; cmd_securid_insert "$@" ;;
+  append)            shift; cmd_securid_append "$@" ;;
+  code|show)         shift; cmd_securid_code "$@" ;;
+  *)                        cmd_securid_code "$@" ;;
 esac
 
 exit 0
