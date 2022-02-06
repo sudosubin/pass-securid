@@ -42,6 +42,23 @@ securid_read_pin() {
   [[ "$pin" == "$pin_again" ]] || die "Error: the entered pins do not match."
 }
 
+securid_serialize() {
+  local token="$1" pin="$2"
+  contents="SecurID Token: $token"$'\n'"SecurID PIN: $pin"
+}
+
+securid_deserialize() {
+  local contents="$1"
+  local token_pattern='SecurID[[:space:]]Token:[[:space:]]?([^'$'\n'']*)'
+  local pin_pattern='SecurID[[:space:]]PIN:[[:space:]]?([^'$'\n'']*)'
+
+  [[ $contents =~ $token_pattern ]]
+  token=${BASH_REMATCH[1]}
+
+  [[ $contents =~ $pin_pattern ]]
+  pin=${BASH_REMATCH[1]}
+}
+
 securid_insert() {
   local path="$1" passfile="$2" contents="$3" message="$4"
 
@@ -107,7 +124,7 @@ cmd_securid_insert() {
 
   securid_read_token "$path"
   securid_read_pin "$path"
-  local contents=$'\n'"SecurID Token: $token"$'\n'"SecurID PIN: $pin"
+  securid_serialize "$token" "$pin"
 
   local passfile="$PREFIX/$path.gpg"
   [[ $force -eq 0 && -e $passfile ]] && yesno "An entry already exists for $path. Overwrite it?"
