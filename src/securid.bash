@@ -134,6 +134,41 @@ cmd_securid_insert() {
   securid_insert "$path" "$passfile" "$contents" "Add SecurID token for $path to store."
 }
 
+cmd_securid_append() {
+  local opts force=0
+  opts="$($GETOPT -o f: -l force: -n "$PROGRAM" -- "$@")"
+  local err=$?
+  eval set -- "$opts"
+  while true; do case $1 in
+    -f|--force) force=1; shift ;;
+    --) shift; break ;;
+  esac done
+
+  [[ $err -ne 0 || $# -ne 1 ]] && die "Usage: $PROGRAM $COMMAND append [--force,-f] pass-name"
+
+  local path="${1%/}"
+  local passfile="$PREFIX/$path.gpg"
+
+  [[ -f $passfile ]] || die "Error: $path is not in the password store."
+
+  local result
+  result="$($GPG -d "${GPG_OPTS[@]}" "$passfile")"
+  securid_deserialize "$result"
+
+  [[ -n "$token" || -n "$pin" ]] && yesno "A SecurID Token or PIN already exists for $path. Overwrite it?"
+
+  securid_read_token "$path"
+  securid_read_pin "$path"
+  securid_serialize "$token" "$pin"
+
+  result="$(echo "$result" | sed '/^SecurID Token.*$/d' | sed '/^SecurID PIN.*$/d')"
+  contents="$result"$'\n'"$contents"
+
+  local passfile="$PREFIX/$path.gpg"
+
+  securid_insert "$path" "$passfile" "$contents" "Append SecurID token for $path to store."
+}
+
 case "$1" in
   help|--help|-h)    shift; cmd_securid_help "$@" ;;
   version|--version) shift; cmd_securid_version "$@" ;;
