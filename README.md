@@ -12,6 +12,12 @@ To insert new RSA SecurID token, run:
 pass securid insert [pass-name]
 ```
 
+To append RSA SecurID token to existing pass file, run:
+
+```sh
+pass securid append pass-name
+```
+
 ### Help
 
 ```text
