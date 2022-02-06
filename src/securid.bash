@@ -21,11 +21,11 @@ VERSION="0.1.0"
 securid_read_token() {
   local token_again name="$1"
 
-  read -r -p "Enter raw string token for $name: " -s token || exit 1
+  read -r -p "Enter SecurID token for $name: " -s token || exit 1
   echo
-  read -r -p "Retype raw string token for $name: " -s token_again || exit 1
+  read -r -p "Retype SecurID token for $name: " -s token_again || exit 1
   echo
-  [[ "$token" == "$token_again" ]] || die "Error: the token strings do not match."
+  [[ "$token" == "$token_again" ]] || die "Error: the entered tokens do not match."
 
   # TODO: Add token validation
 }
