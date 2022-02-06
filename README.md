@@ -18,6 +18,12 @@ To append RSA SecurID token to existing pass file, run:
 pass securid append pass-name
 ```
 
+To show RSA SecurID code, run:
+
+```sh
+pass securid pass-name
+```
+
 ### Help
 
 ```text

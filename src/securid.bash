@@ -17,6 +17,7 @@
 #
 
 VERSION="0.1.0"
+STOKEN=$(command -v stoken)
 
 securid_read_token() {
   local token_again name="$1"
@@ -167,6 +168,43 @@ cmd_securid_append() {
   local passfile="$PREFIX/$path.gpg"
 
   securid_insert "$path" "$passfile" "$contents" "Append SecurID token for $path to store."
+}
+
+cmd_securid_code() {
+  [[ -z "$STOKEN" ]] && die "Error: stoken is not installed."
+
+  local opts clip=0
+  opts="$($GETOPT -o c -l clip -n "$PROGRAM" -- "$@")"
+  local err=$?
+  eval set -- "$opts"
+
+  while true; do case $1 in
+    -c|--clip) clip=1; shift ;;
+    --) shift; break ;;
+  esac done
+
+  [[ $err -ne 0 || $# -ne 1 ]] && die "Usage: $PROGRAM $COMMAND [--clip,-c] pass-name"
+
+  local path="${1%/}"
+  local passfile="$PREFIX/$path.gpg"
+  check_sneaky_paths "$path"
+
+  [[ -f $passfile ]] || die "Error: $path is not in the password store."
+
+  local result
+  result="$($GPG -d "${GPG_OPTS[@]}" "$passfile")"
+  securid_deserialize "$result"
+
+  [[ -n "$token" && -n "$pin" ]] || die "Error: SecurID token and pid not found."
+
+  local out
+  out=$(echo "$pin" | $STOKEN --stdin --token "$token") || die "Error: Fail to generate SecurID code."
+
+  if [[ $clip -ne 0 ]]; then
+    clip "$out" "SecurID code for $path"
+  else
+    echo "$out"
+  fi
 }
 
 case "$1" in
