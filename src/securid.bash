@@ -126,6 +126,8 @@ cmd_securid_insert() {
   securid_read_pin "$path"
   securid_serialize "$token" "$pin"
 
+  contents=$'\n'"$contents"
+
   local passfile="$PREFIX/$path.gpg"
   [[ $force -eq 0 && -e $passfile ]] && yesno "An entry already exists for $path. Overwrite it?"
 
