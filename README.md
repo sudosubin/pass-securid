@@ -4,6 +4,14 @@ A [pass](https://www.passwordstore.org/) extension for managing RSA SecurIDs.
 
 ## Usage
 
+### Basic use
+
+To insert new RSA SecurID token, run:
+
+```sh
+pass securid insert [pass-name]
+```
+
 ### Help
 
 ```text
