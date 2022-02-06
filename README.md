@@ -33,7 +33,7 @@ Usage:
         Show a SecurID and optionally put it on the clipboard.
         If put on the clipboard, it will be cleared in $CLIP_TIME seconds.
 
-    pass securid insert [--force,-f] pass-name
+    pass securid insert [--force,-f] [pass-name]
         Insert new SecurID token.
 
     pass securid append [--force,-f] pass-name
