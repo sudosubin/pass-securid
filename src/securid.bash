@@ -30,6 +30,18 @@ securid_read_token() {
   # TODO: Add token validation
 }
 
+securid_read_pin() {
+  local pin_again name="$1"
+
+  read -r -p "Enter SecurID PIN for $name (default: 0000): " -s pin || exit 1
+  echo
+  read -r -p "Retype SecurID PIN for $name (default: 0000): " -s pin_again || exit 1
+  echo
+  pin=${pin:-0000}
+  pin_again=${pin:-0000}
+  [[ "$pin" == "$pin_again" ]] || die "Error: the entered pins do not match."
+}
+
 securid_insert() {
   local path="$1" passfile="$2" contents="$3" message="$4"
 
@@ -94,11 +106,13 @@ cmd_securid_insert() {
   fi
 
   securid_read_token "$path"
+  securid_read_pin "$path"
+  local contents=$'\n'"SecurID Token: $token"$'\n'"SecurID PIN: $pin"
 
   local passfile="$PREFIX/$path.gpg"
   [[ $force -eq 0 && -e $passfile ]] && yesno "An entry already exists for $path. Overwrite it?"
 
-  securid_insert "$path" "$passfile" "$token" "Add SecurID token for $path to store."
+  securid_insert "$path" "$passfile" "$contents" "Add SecurID token for $path to store."
 }
 
 case "$1" in
