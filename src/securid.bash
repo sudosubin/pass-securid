@@ -18,18 +18,43 @@
 
 VERSION="0.1.0"
 
-cmd_version() {
-    echo "pass-securid $VERSION"
-    exit 0
+cmd_securid_help() {
+  cat << _EOF
+Usage:
+
+    $PROGRAM securid [code,show] [--clip,-c] pass-name
+        Show a SecurID and optionally put it on the clipboard.
+        If put on the clipboard, it will be cleared in $CLIP_TIME seconds.
+
+    $PROGRAM securid insert [--force,-f] pass-name
+        Insert new SecurID token.
+
+    $PROGRAM securid append [--force,-f] pass-name
+        Appends a SecurID token to an existing password file.
+
+    $PROGRAM securid help
+        Show this text.
+
+    $PROGRAM securid version
+        Show version information.
+
+More information may be found in the pass-securid(1) man page.
+_EOF
+  exit 0
+}
+
+cmd_securid_version() {
+  echo "pass-securid $VERSION"
+  exit 0
 }
 
 case "$1" in
-  help|--help|-h)    shift; cmd_help "$@" ;;
-  version|--version) shift; cmd_version "$@" ;;
-  insert)            shift; cmd_insert "$@" ;;
-  append)            shift; cmd_append "$@" ;;
-  code|show)         shift; cmd_code "$@" ;;
-  *)                        cmd_code "$@" ;;
+  help|--help|-h)    shift; cmd_securid_help "$@" ;;
+  version|--version) shift; cmd_securid_version "$@" ;;
+  insert)            shift; cmd_securid_insert "$@" ;;
+  append)            shift; cmd_securid_append "$@" ;;
+  code|show)         shift; cmd_securid_code "$@" ;;
+  *)                        cmd_securid_code "$@" ;;
 esac
 
 exit 0
