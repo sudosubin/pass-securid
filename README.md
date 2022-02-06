@@ -9,20 +9,20 @@ A [pass](https://www.passwordstore.org/) extension for managing RSA SecurIDs.
 ```text
 Usage:
 
-    $PROGRAM securid [code,show] [--clip,-c] pass-name
+    pass securid [code,show] [--clip,-c] pass-name
         Show a SecurID and optionally put it on the clipboard.
         If put on the clipboard, it will be cleared in $CLIP_TIME seconds.
 
-    $PROGRAM securid insert [--force,-f] pass-name
+    pass securid insert [--force,-f] pass-name
         Insert new SecurID token.
 
-    $PROGRAM securid append [--force,-f] pass-name
+    pass securid append [--force,-f] pass-name
         Appends a SecurID token to an existing password file.
 
-    $PROGRAM securid help
+    pass securid help
         Show this text.
 
-    $PROGRAM securid version
+    pass securid version
         Show version information.
 
 More information may be found in the pass-securid(1) man page.
