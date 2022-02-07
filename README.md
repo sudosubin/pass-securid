@@ -63,3 +63,12 @@ git clone https://github.com/sudosubin/pass-securid.git
 cd pass-securid
 sudo make install
 ```
+
+### macOS
+
+#### Brew
+
+```sh
+brew tap sudosubin/pass-securid
+brew install pass-securid
+```
