@@ -1,0 +1,99 @@
+.TH PASS-SECURID 1 "2022 March 1" sudosubin "Password Store SecurID extension"
+
+.SH NAME
+pass-securid - A \fBpass\fP(1) extension for managing RSA SecurIDs.
+
+.SH SYNOPSIS
+.B pass securid
+[
+.I COMMAND
+] [
+.I OPTIONS
+]... [
+.I ARGS
+]...
+
+.SH DESCRIPTION
+
+.B pass-securid
+extends the
+.BR pass (1)
+utility with the
+.B securid
+command, which provides adding SecurID tokens, and generating SecurID codes.
+
+If no COMMAND is specified, COMMAND defaults to \fBcode\fP.
+
+.SH COMMANDS
+
+.TP
+\fBsecurid code\fP [ \fI--clip\fP, \fI-c\fP ] \fIpass-name\fP
+
+Generate and show an SecurID code from the token and pin stored in
+\fIpass-name\fP using \fBstoken\fP(1). If \fI--clip\fP or \fI-c\fP is specified,
+do not print the code but instead copy the code to the clipboard using
+.BR xclip (1)
+or
+.BR wl-clipboard (1)
+and then restore the clipboard after 45 (or \fIPASSWORD_STORE_CLIP_TIME\fP)
+seconds. This command is alternatively named \fBshow\fP.
+
+.TP
+\fBsecurid insert\fP [ \fI--force\fP, \fI-f\fP ] [ \fIpass-name\fP ]
+
+Insert a new SecurID token and pin into the password store called
+\fIpass-name\fP. If \fIpass-name\fP is not specified, prompt for
+\fIpass-name\fP. Prompt before overwriting existing token and pin, unless
+\fI--force\fP or \fI-f\fP is specified.
+
+.TP
+\fBsecurid append\fP [ \fI--force\fP, \fI-f\fP ] \fIpass-name\fP
+
+Append a new SecurID token and pin to the password store called \fIpass-name\fP,
+preserving any existing lines. Prompt before overwriting existing token and pin,
+unless \fI--force\fP or \fI-f\fP is specified.
+
+.TP
+\fBsecurid validate\fP \fItoken\fP
+
+Test a token string for validity with \fBstoken\fP(1). For more information
+about the token, see the documentation at \fBstoken\fP(1).
+
+.SH OPTIONS
+
+.TP
+\fBhelp\fP, \fB\-\-help\fP, \fB\-h\fP
+Show help message.
+
+.TP
+\fBversion\fP, \fB\--version\fP
+Show version information.
+
+.SH SEE ALSO
+.BR pass (1),
+.BR stoken (1).
+
+.SH AUTHORS
+.B pass-securid
+was written by
+.MT sudosubin@gmail.com
+Subin Kim
+.ME .
+For updates and more information, a project page is available on the
+.UR https://\:github.\:com/\:sudosubin/\:pass-securid
+World Wide Web
+.UE .
+
+.SH COPYING
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
