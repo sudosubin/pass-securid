@@ -39,6 +39,9 @@ Usage:
     pass securid append [--force,-f] pass-name
         Appends a SecurID token to an existing password file.
 
+    pass securid validate token
+        Test if the given token is a valid SecurID token.
+
     pass securid help
         Show this text.
 
