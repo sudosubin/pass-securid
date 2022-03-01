@@ -16,7 +16,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-VERSION="0.1.0"
+VERSION="0.1.1"
 STOKEN=$(command -v stoken)
 
 securid_read_token() {

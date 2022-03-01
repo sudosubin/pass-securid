@@ -16,7 +16,7 @@
       pass-securid-overlay = (final: { lib, stdenv, stoken, ... }@prev: {
         pass-securid = stdenv.mkDerivation rec {
           pname = "pass-securid";
-          version = "0.1.0";
+          version = "0.1.1";
 
           src = ./.;
 
