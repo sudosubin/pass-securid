@@ -74,6 +74,13 @@ securid_insert() {
   git_add_file "$passfile" "$message"
 }
 
+securid_validate_token() {
+  [[ -z "$STOKEN" ]] && die "Error: stoken is not installed."
+
+  local token="$1" pin="0000"
+  out=$($STOKEN --stdin --token "$token" --pin "$pin" 2>/dev/null) || die "Invalid SecurID token (validation failed)."
+}
+
 cmd_securid_help() {
   cat << _EOF
 Usage:
@@ -87,6 +94,9 @@ Usage:
 
     $PROGRAM securid append [--force,-f] pass-name
         Appends a SecurID token to an existing password file.
+
+    $PROGRAM securid validate token
+        Test if the given token is a valid SecurID token.
 
     $PROGRAM securid help
         Show this text.
@@ -198,7 +208,7 @@ cmd_securid_code() {
   [[ -n "$token" && -n "$pin" ]] || die "Error: SecurID token and pid not found."
 
   local out
-  out=$(echo "$pin" | $STOKEN --stdin --token "$token") || die "Error: Fail to generate SecurID code."
+  out=$($STOKEN --token "$token" --pin "$pin") || die "Error: Fail to generate SecurID code."
 
   if [[ $clip -ne 0 ]]; then
     clip "$out" "SecurID code for $path"
@@ -207,12 +217,17 @@ cmd_securid_code() {
   fi
 }
 
+cmd_securid_validate() {
+  securid_validate_token "$1"
+}
+
 case "$1" in
   help|--help|-h)    shift; cmd_securid_help "$@" ;;
   version|--version) shift; cmd_securid_version "$@" ;;
   insert)            shift; cmd_securid_insert "$@" ;;
   append)            shift; cmd_securid_append "$@" ;;
   code|show)         shift; cmd_securid_code "$@" ;;
+  validate)          shift; cmd_securid_validate "$@" ;;
   *)                        cmd_securid_code "$@" ;;
 esac
 
