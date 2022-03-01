@@ -28,7 +28,7 @@ securid_read_token() {
   echo
   [[ "$token" == "$token_again" ]] || die "Error: the entered tokens do not match."
 
-  # TODO: Add token validation
+  securid_validate_token "$1"
 }
 
 securid_read_pin() {
