@@ -72,6 +72,5 @@ sudo make install
 #### Brew
 
 ```sh
-brew tap sudosubin/pass-securid
-brew install pass-securid
+brew install sudosubin/tap/pass-securid
 ```
